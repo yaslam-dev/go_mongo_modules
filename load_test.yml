@@ -1,0 +1,84 @@
+config:
+  target: http://127.0.0.1:8081
+  phases:
+    - duration: 60
+      arrivalRate: 1
+      rampTo: 5
+      name: Warm up phase
+    - duration: 60
+      arrivalRate: 5
+      rampTo: 10
+      name: Ramp up load
+    - duration: 30
+      arrivalRate: 10
+      rampTo: 30
+      name: Spike phase
+  variables:
+    name:
+      - "User1"
+      - "asdasd"
+      - "asdasd1"
+      - "asdasd2"
+      - "asdasd3"
+      - "asdasd4"
+      - "asdasd5"
+      - "asdasd6"
+      - "asdasd7"
+      - "asdasd12"
+      - "asdasd123"
+      - "asdasd123"
+      - "asdasd123"
+      - "asdas12d"
+      - "asdasd123"
+      - "asdasd12"
+      - "asdasd01"
+      - "asdasd02"
+      - "asdasd03"
+      - "asdasd04"
+      - "asdasd04"
+      - "asdasd05"
+    email:
+      - "user1@gmail.com"
+      - "user2@gmail.com"
+      - "user3@gmail.com"
+      - "user4@gmail.com"
+      - "user5@gmail.com"
+      - "user6@gmail.com"
+      - "user7@gmail.com"
+      - "user8@gmail.com"
+      - "user9@gmail.com"
+      - "user10@gmail.com"
+      - "user11@gmail.com"
+      - "user12@gmail.com"
+      - "user13@gmail.com"
+      - "user14@gmail.com"
+      - "user15@gmail.com"
+      - "user16@gmail.com"
+      - "user17@gmail.com"
+      - "user18@gmail.com"
+      - "user19@gmail.com"
+      - "user20@gmail.com"
+      - "user21@gmail.com"
+      - "user22@gmail.com"
+
+  # Load & configure a couple of useful plugins
+  # https://docs.art/reference/extensions
+  plugins:
+    ensure: {}
+    apdex: {}
+    metrics-by-endpoint: {}
+  apdex:
+    threshold: 100
+  ensure:
+    thresholds:
+      - http.response_time.p99: 100
+      - http.response_time.p95: 75
+scenarios:
+  - flow:
+      - loop:
+          - post:
+              url: "/v1/auth/register"
+              json:
+                name: "{{name}}"
+                email: "{{email}}"
+        count: 100
