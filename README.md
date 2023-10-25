@@ -5,12 +5,13 @@
 ## What is included
 
 1. `dotenv` support
-2. [mgm](https://github.com/Kamva/mgm) database support with modelsn
+2. [mgm](https://github.com/Kamva/mgm) database support with models
 3. `mongodb` database
 4. [gofiber](https://gofiber.io/) support for web server, middlewares ...
 5. [Artillery](https://www.artillery.io/) load testing boilerplate
-6. 🔎 `swagger generating` _comming soon_
-7. 🔎 `Github Action` _comming soon_
+6. 🔎 `Validation of DTO` _comming soon_
+7. 🔎 `swagger generating` _comming soon_
+8. 🔎 `Github Action` _comming soon_
 
 ## Prequisites
 
