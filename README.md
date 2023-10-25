@@ -8,9 +8,9 @@
 2. [mgm](https://github.com/Kamva/mgm) database support with modelsn
 3. `mongodb` database
 4. [gofiber](https://gofiber.io/) support for web server, middlewares ...
-5. 🔎 `swagger generating` _comming soon_
-6. [Artillery](https://www.artillery.io/) load testing boilerplate
-7. `Github Action` incoming...
+5. [Artillery](https://www.artillery.io/) load testing boilerplate
+6. 🔎 `swagger generating` _comming soon_
+7. 🔎 `Github Action` _comming soon_
 
 ## Prequisites
 
@@ -20,7 +20,7 @@
 
 ## Optional
 
-- nodemon `npm install -g artillery`
+- Artillery `npm install -g artillery`
 
 ## Scripts
 
