@@ -2,6 +2,7 @@ package core
 
 import (
 	"fmt"
+	http "net/http"
 	"strings"
 	"time"
 
@@ -43,7 +44,7 @@ func ErrorHandler(ctx *fiber.Ctx, err error) error {
 	if ConfigInstance().Env != Production {
 		response["details"] = err.Error()
 	}
-	ctx.Status(500).JSON(response)
+	ctx.Status(http.StatusInternalServerError).JSON(response)
 	return nil
 }
 
@@ -57,18 +58,26 @@ func NewServer() *Server {
 			DisableStartupMessage: false,
 			JSONEncoder:           json.Marshal,
 			JSONDecoder:           json.Unmarshal,
-			Prefork:               true,
+			Prefork:               false,
 		})
 		engine.Use(recover.New(recover.Config{
 			EnableStackTrace: true,
 		}))
 
-		engine.Use(compress.New())
+		engine.Use(compress.New(compress.Config{
+			// LevelBestCompression:  2
+			Level: 2,
+		}))
+
 		engine.Use(limiter.New(limiter.Config{
 			Max:               20,
 			Expiration:        30 * time.Second,
 			LimiterMiddleware: limiter.SlidingWindow{},
+			LimitReached: func(c *fiber.Ctx) error {
+				return c.SendStatus(fiber.StatusTooManyRequests)
+			},
 		}))
+
 		engine.Get("/server/metrics", monitor.New(monitor.Config{
 			Title:   fmt.Sprintf("%s Metrics Page", strings.ToUpper(ConfigInstance().AppName)),
 			Refresh: 1 * time.Second,
@@ -79,10 +88,8 @@ func NewServer() *Server {
 			Format: "[${time}] x-request-id ${locals:requestid} ${method} ${path} ${status}  - ${latency} ${ip} ${ua} - ${error} \n",
 		}))
 
-		go func() {
-			db := &Database{}
-			db.InitializeDatabase()
-		}()
+		db := &Database{}
+		db.InitializeDatabase()
 
 		server = &Server{
 			Port:   ConfigInstance().Port,

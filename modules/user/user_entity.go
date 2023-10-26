@@ -1,6 +1,7 @@
 package user
 
 import (
+	"context"
 	"strings"
 
 	"github.com/kamva/mgm/v3"
@@ -28,12 +29,14 @@ func (u *User) GetByID() error {
 	return nil
 }
 
-func (u *User) GetByEmail() error {
-	err := mgm.Coll(&User{}).SimpleFind(&User{}, bson.D{{Key: "email", Value: u.Email}})
+func (u *User) GetByEmail() (*User, error) {
+	user := &User{}
+
+	err := mgm.Coll(&User{}).FindOne(context.TODO(), bson.D{{Key: "email", Value: u.Email}}).Decode(&user)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	return nil
+	return user, nil
 }
 
 func (u *User) Create() error {
