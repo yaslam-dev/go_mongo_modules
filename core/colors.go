@@ -2,7 +2,7 @@ package core
 
 import "fmt"
 
-//colors
+// colors
 const (
 	green   = "\033[32m"
 	white   = "\033[37m"
@@ -18,8 +18,6 @@ var (
 	register = Colorize(green, "[Register]")
 	generate = Colorize(blue, "[Generate]")
 	starting = Colorize(cyan, "[Starting...]")
-	migrate  = Colorize(green, "[Migrate]")
-	connect  = Colorize(blue, "[Connect]")
 )
 
 func Colorize(color string, text string) string {

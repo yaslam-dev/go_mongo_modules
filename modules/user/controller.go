@@ -47,17 +47,23 @@ func NewAuthController() *AuthController {
 // Login user
 func RegisterUser(ctx *fiber.Ctx) error {
 	registerDto := &RegisterRequestDto{}
-	err := ctx.BodyParser(registerDto)
-	if err != nil {
-		ctx.Status(400).JSON(home.ErrorResponse([]error{err}, home.CANNOT_PARSE_BODY))
+	if err := ctx.BodyParser(registerDto); err != nil {
+		if err := ctx.Status(400).JSON(home.ErrorResponse([]error{err}, home.CANNOT_PARSE_BODY)); err != nil {
+			return err
+		}
 		return err
 	}
 	user, err := Register(registerDto)
 	if err != nil {
-		ctx.Status(401).JSON(home.ErrorResponse([]error{err}, home.OAUTH_TOKEN_NOT_CORRECT))
+		err := ctx.Status(401).JSON(home.ErrorResponse([]error{err}, home.OAUTH_TOKEN_NOT_CORRECT))
+		if err != nil {
+			return err
+		}
 		return err
 	}
-	ctx.Status(200).JSON(user)
+	if err := ctx.Status(200).JSON(user); err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -65,7 +71,9 @@ func LoginUser(ctx *fiber.Ctx) error {
 	findUserDto := &LoginUserDto{}
 	err := ctx.BodyParser(findUserDto)
 	if err != nil {
-		ctx.Status(400).JSON(home.ErrorResponse([]error{err}, home.CANNOT_PARSE_BODY))
+		if err := ctx.Status(400).JSON(home.ErrorResponse([]error{err}, home.CANNOT_PARSE_BODY)); err != nil {
+			return err
+		}
 		return err
 	}
 	fmt.Println(findUserDto)
@@ -81,16 +89,20 @@ type ParamStruct struct {
 }
 
 func GetUser(ctx *fiber.Ctx) error {
+	var err error
 	params := ParamStruct{}
-	err := ctx.ParamsParser(&params)
-	query := QueryStruct{}
-	err = ctx.QueryParser(&query)
-	if err != nil {
+	if err = ctx.ParamsParser(&params); err != nil {
 		return err
 	}
-	ctx.Status(200).JSON(map[string]interface{}{
+	query := QueryStruct{}
+	if err = ctx.QueryParser(&query); err != nil {
+		return err
+	}
+	if err = ctx.Status(200).JSON(map[string]interface{}{
 		"path":  params,
 		"query": query,
-	})
+	}); err != nil {
+		return err
+	}
 	return nil
 }

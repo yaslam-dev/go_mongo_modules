@@ -44,7 +44,9 @@ func ErrorHandler(ctx *fiber.Ctx, err error) error {
 	if ConfigInstance().Env != Production {
 		response["details"] = err.Error()
 	}
-	ctx.Status(http.StatusInternalServerError).JSON(response)
+	if err = ctx.Status(http.StatusInternalServerError).JSON(response); err != nil {
+		ctx.Status(http.StatusInternalServerError)
+	}
 	return nil
 }
 
@@ -58,7 +60,7 @@ func NewServer() *Server {
 			DisableStartupMessage: false,
 			JSONEncoder:           json.Marshal,
 			JSONDecoder:           json.Unmarshal,
-			Prefork:               false,
+			Prefork:               true,
 		})
 		engine.Use(recover.New(recover.Config{
 			EnableStackTrace: true,
@@ -69,14 +71,16 @@ func NewServer() *Server {
 			Level: 2,
 		}))
 
-		engine.Use(limiter.New(limiter.Config{
-			Max:               20,
-			Expiration:        30 * time.Second,
-			LimiterMiddleware: limiter.SlidingWindow{},
-			LimitReached: func(c *fiber.Ctx) error {
-				return c.SendStatus(fiber.StatusTooManyRequests)
-			},
-		}))
+		if ConfigInstance().Env == Production {
+			engine.Use(limiter.New(limiter.Config{
+				Max:               20,
+				Expiration:        30 * time.Second,
+				LimiterMiddleware: limiter.SlidingWindow{},
+				LimitReached: func(c *fiber.Ctx) error {
+					return c.SendStatus(fiber.StatusTooManyRequests)
+				},
+			}))
+		}
 
 		engine.Get("/server/metrics", monitor.New(monitor.Config{
 			Title:   fmt.Sprintf("%s Metrics Page", strings.ToUpper(ConfigInstance().AppName)),

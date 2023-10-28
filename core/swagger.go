@@ -46,15 +46,21 @@ func (s *Swagger) SetShouldGenerateSwagger(shouldGenerateSwagger bool) *Swagger 
 	return s
 }
 
-func (s *Swagger) ToJson() []byte {
+func (s *Swagger) ToJson() ([]byte, error) {
 	var w io.Writer = &bytes.Buffer{}
-	json.NewEncoder(w).Encode(s)
-	return w.(*bytes.Buffer).Bytes()
+	if err := json.NewEncoder(w).Encode(s); err != nil {
+		return nil, err
+	}
+	return w.(*bytes.Buffer).Bytes(), nil
 }
 
 func (s *Swagger) GenerateSwagger() {
+	swaggerJSON, err := s.ToJson()
+	if err != nil {
+		fmt.Printf("Error writing swagger file: %s\n", err)
+	}
 	if s.ShouldGenerateSwagger {
-		err := os.WriteFile("swagger.json", []byte(s.ToJson()), 0644)
+		err := os.WriteFile("swagger.json", swaggerJSON, 0644)
 		if err != nil {
 			fmt.Printf("Error writing swagger file: %s\n", err)
 		}

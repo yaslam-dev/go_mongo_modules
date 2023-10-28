@@ -8,6 +8,10 @@ import (
 )
 
 func Register(registerDto *RegisterRequestDto) (*RegisterResponseDto, error) {
+	var err error
+	var token string
+	var fetchedUser *User
+
 	//according to type get user info
 	//check if user exist
 	user := &User{
@@ -18,7 +22,11 @@ func Register(registerDto *RegisterRequestDto) (*RegisterResponseDto, error) {
 		LoggedBy: "web",
 	}
 
-	fetchedUser, err := user.GetByEmail()
+	fetchedUser, err = user.GetByEmail()
+
+	if err != nil {
+		return nil, err
+	}
 
 	if fetchedUser != nil {
 		token, err := generateToken(user)
@@ -36,7 +44,7 @@ func Register(registerDto *RegisterRequestDto) (*RegisterResponseDto, error) {
 	if err != nil {
 		return nil, err
 	}
-	token, err := generateToken(user)
+	token, err = generateToken(user)
 	if err != nil {
 		return nil, err
 	}

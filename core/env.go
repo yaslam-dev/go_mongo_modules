@@ -14,21 +14,20 @@ const (
 
 func LoadEnv(env Stage) {
 	if env == Development {
-		err := dotEnv.Load(".env.dev")
-		if err != nil {
-			dotEnv.Load()
+		if err := dotEnv.Load(".env.dev"); err != nil {
+			panic(err)
 		}
 	} else if env == Production {
-		err := dotEnv.Load(".env.prod")
-		if err != nil {
-			dotEnv.Load()
+		if err := dotEnv.Load(".env.prod"); err != nil {
+			panic(err)
 		}
 	} else if env == Test {
-		err := dotEnv.Load("../.env.test")
-		if err != nil {
-			dotEnv.Load()
+		if err := dotEnv.Load("../.env.test"); err != nil {
+			panic(err)
 		}
 	} else {
-		dotEnv.Load(".env")
+		if err := dotEnv.Load(".env"); err != nil {
+			panic(err)
+		}
 	}
 }

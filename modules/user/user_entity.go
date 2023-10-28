@@ -30,10 +30,9 @@ func (u *User) GetByID() error {
 }
 
 func (u *User) GetByEmail() (*User, error) {
+	var err error
 	user := &User{}
-
-	err := mgm.Coll(&User{}).FindOne(context.TODO(), bson.D{{Key: "email", Value: u.Email}}).Decode(&user)
-	if err != nil {
+	if err = mgm.Coll(&User{}).FindOne(context.TODO(), bson.D{{Key: "email", Value: u.Email}}).Decode(&user); err != nil {
 		return nil, err
 	}
 	return user, nil
