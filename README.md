@@ -17,7 +17,7 @@
 - Adding Benchmarks using Artillery load testing.
 - 🔎 `Github Action` _comming soon_
 - Middleware for Authentication and Autorization.
-- Shift from `goAir` for Hot-Module Reload instead of `nodemon`.
+- Shift to `goAir` for Hot-Module Reload instead of `nodemon`.
 
 ## Prequisites
 
