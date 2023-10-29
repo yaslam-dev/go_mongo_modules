@@ -61,15 +61,3 @@ func (m *Module) RegisterRoutes(e *fiber.App) {
 		imported.RegisterRoutes(e)
 	}
 }
-
-func (m *Module) GenerateSwagger() {
-	fmt.Println("M", generate, " Swagger for module: ", m.Name)
-	for _, c := range m.Controllers {
-		c.GenerateSwagger(m.Name)
-		description := m.Description
-		if description == "" {
-			description = "Main Module Description"
-		}
-		swaggerInstance.Tags = append(swaggerInstance.Tags, SwaggerTag{Name: m.Name, Description: description})
-	}
-}

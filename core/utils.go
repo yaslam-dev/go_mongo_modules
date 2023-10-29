@@ -26,7 +26,7 @@ func ExtractPathParameters(path string) []string {
 	return parameters
 }
 
-func GenerateOperationId(path string, controllerName string, method HttpMethods, version string) string {
+func GenerateOperationID(path string, controllerName string, method HTTPMethods, version string) string {
 	pathParts := strings.Split(path, "/")
 	pathString := ""
 	for _, pathPart := range pathParts {

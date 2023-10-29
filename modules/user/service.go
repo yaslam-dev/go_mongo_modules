@@ -1,3 +1,4 @@
+// Package user provide services, repositories and handlers for everything related to user
 package user
 
 import (
@@ -71,7 +72,7 @@ func Search(findUserDto *FindUserDto) (*FindUserResponseDto, error) {
 }
 
 func generateToken(user *User) (string, error) {
-	secret := core.ConfigInstance().JWT_SECRET
+	secret := core.ConfigInstance().JwtSecret
 	token := jwt.New(jwt.GetSigningMethod("HS256"))
 	claims := token.Claims.(jwt.MapClaims)
 	claims["userId"] = user.ID

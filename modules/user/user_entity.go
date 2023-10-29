@@ -18,7 +18,7 @@ type User struct {
 }
 
 func (model *User) CollectionName() string {
-	return COLLECTION_NAME
+	return CollectionName
 }
 
 func (u *User) GetByID() error {

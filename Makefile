@@ -1,7 +1,7 @@
 dev:
 	nodemon --exec go run main.go -env dev --signal SIGTERM
 lint: 
-	golangci-lint run
+	staticcheck ./...
 swagger:
 	go run main.go -sw
 test:

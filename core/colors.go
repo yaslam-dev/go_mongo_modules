@@ -1,6 +1,9 @@
 package core
 
-import "fmt"
+import (
+	"fmt"
+	http "net/http"
+)
 
 // colors
 const (
@@ -16,7 +19,6 @@ const (
 
 var (
 	register = Colorize(green, "[Register]")
-	generate = Colorize(blue, "[Generate]")
 	starting = Colorize(cyan, "[Starting...]")
 )
 
@@ -24,18 +26,18 @@ func Colorize(color string, text string) string {
 	return fmt.Sprintf("%s%s%s", color, text, reset)
 }
 
-func GetStatusString(status HttpMethods) string {
+func GetStatusString(status HTTPMethods) string {
 	switch status {
-	case HTTP_GET_METHOD:
-		return Colorize(blue, fmt.Sprintf("[%s]", string(HTTP_GET_METHOD)))
-	case HTTP_POST_METHOD:
-		return Colorize(cyan, fmt.Sprintf("[%s]", string(HTTP_POST_METHOD)))
-	case HTTP_DELETE_METHOD:
-		return Colorize(red, fmt.Sprintf("[%s]", string(HTTP_DELETE_METHOD)))
-	case HTTP_PUT_METHOD:
-		return Colorize(yellow, fmt.Sprintf("[%s]", string(HTTP_PUT_METHOD)))
-	case HTTP_PATCH_METHOD:
-		return Colorize(green, fmt.Sprintf("[%s]", string(HTTP_PATCH_METHOD)))
+	case http.MethodGet:
+		return Colorize(blue, fmt.Sprintf("[%s]", string(http.MethodGet)))
+	case http.MethodPost:
+		return Colorize(cyan, fmt.Sprintf("[%s]", string(http.MethodPost)))
+	case http.MethodDelete:
+		return Colorize(red, fmt.Sprintf("[%s]", string(http.MethodDelete)))
+	case http.MethodPut:
+		return Colorize(yellow, fmt.Sprintf("[%s]", string(http.MethodPut)))
+	case http.MethodPatch:
+		return Colorize(green, fmt.Sprintf("[%s]", string(http.MethodPatch)))
 	default:
 		return string(status)
 	}

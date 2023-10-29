@@ -1,3 +1,4 @@
+// Package modules bootstrap all of the modules in your application
 package modules
 
 import (

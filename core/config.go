@@ -1,3 +1,5 @@
+// Package core Provides shared functionalities like config, database connection, controller defination
+// that can be used by modules directory
 package core
 
 import (
@@ -15,18 +17,18 @@ type Config struct {
 	InternalSecret string
 	Port           int
 	Database       DatabaseConfig
-	JWT_SECRET     string
-	IS_MIGRATE     bool
-	IS_SWAGGER     bool
+	JwtSecret      string
+	IsMigrate      bool
+	IsSwagger      bool
 	Env            Stage
 }
 
 func (c *Config) SetMigrate(isMigrate bool) *Config {
-	c.IS_MIGRATE = isMigrate
+	c.IsMigrate = isMigrate
 	return c
 }
 func (c *Config) SetSwagger(isSwagger bool) *Config {
-	c.IS_SWAGGER = isSwagger
+	c.IsSwagger = isSwagger
 	return c
 }
 
@@ -40,22 +42,22 @@ func NewConfig(env Stage) *Config {
 			port = 8080
 		}
 
-		db_url := os.Getenv("DB_URL")
-		db_name := os.Getenv("DB_NAME")
-		jwt_secret := os.Getenv("JWT_SECRET")
-		internal_secret := os.Getenv("INTERNAL_SECRET")
-		app_name := os.Getenv("APP_NAME")
+		dbURL := os.Getenv("DB_URL")
+		dbName := os.Getenv("DB_NAME")
+		jwtSecret := os.Getenv("JWT_SECRET")
+		internelSecret := os.Getenv("INTERNAL_SECRET")
+		appName := os.Getenv("APP_NAME")
 
 		config = &Config{
-			AppName:        app_name,
-			InternalSecret: internal_secret,
+			AppName:        appName,
+			InternalSecret: internelSecret,
 			Port:           port,
 			Database: DatabaseConfig{
-				DBURL:  db_url,
-				DBNAME: db_name,
+				DBURL:  dbURL,
+				DBNAME: dbName,
 			},
-			JWT_SECRET: jwt_secret,
-			Env:        env,
+			JwtSecret: jwtSecret,
+			Env:       env,
 		}
 	}
 	return config

@@ -6,9 +6,9 @@ import (
 )
 
 const (
-	CANNOT_PARSE_BODY       = 3001
-	OAUTH_TOKEN_NOT_CORRECT = 4001
-	USER_SERVER_ERROR       = 5001
+	CannotParseBody     = 3001
+	OAuthTokenIncorrect = 4001
+	UserServerError     = 5001
 )
 
 func ErrorResponse(errs []error, code int) *gin.H {

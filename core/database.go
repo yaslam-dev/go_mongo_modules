@@ -9,10 +9,10 @@ type Database struct{}
 
 func (D *Database) InitializeDatabase() {
 	config := ConfigInstance()
-	db_url := config.Database.DBURL
-	db_name := config.Database.DBNAME
+	dbURL := config.Database.DBURL
+	dbName := config.Database.DBNAME
 
-	err := mgm.SetDefaultConfig(nil, db_name, options.Client().ApplyURI(db_url))
+	err := mgm.SetDefaultConfig(nil, dbName, options.Client().ApplyURI(dbURL))
 	if err != nil {
 		panic(err)
 	}

@@ -2,6 +2,7 @@ package user
 
 import (
 	"fmt"
+	http "net/http"
 
 	"github.com/Yasir900Aslam/go_mongo_modules/core"
 	"github.com/Yasir900Aslam/go_mongo_modules/home"
@@ -17,45 +18,44 @@ func NewAuthController() *AuthController {
 		SetVersion("v1").
 		SetPath("/auth").
 		AddHandler(core.NewHandler().
-			SetMethod(core.HTTP_POST_METHOD).
+			SetMethod(http.MethodPost).
 			SetPath("/register").
 			SetHandlerFunc(RegisterUser).
 			SetDescription("Register user").
 			SetRequestDto(&RegisterRequestDto{}).
 			SetResponseDto(&RegisterResponseDto{})).
 		AddHandler(core.NewHandler().
-			SetMethod(core.HTTP_POST_METHOD).
+			SetMethod(http.MethodPost).
 			SetPath("/login").
 			SetHandlerFunc(LoginUser).
 			SetDescription("Login user").
 			SetRequestDto(&LoginUserDto{}).
 			SetResponseDto(&LoginUserResponseDto{})).
 		AddHandler(core.NewHandler().
-			SetMethod(core.HTTP_GET_METHOD).
+			SetMethod(http.MethodGet).
 			SetPath("/login").
 			SetHandlerFunc(LoginUser).
 			SetDescription("get token of user").
 			SetResponseDto(&LoginUserResponseDto{})).
 		AddHandler(core.NewHandler().
-			SetMethod(core.HTTP_GET_METHOD).
+			SetMethod(http.MethodGet).
 			SetPath("/:id").
 			SetHandlerFunc(GetUser).
 			SetDescription("get user").
 			SetResponseDto(&User{}))
 }
 
-// Login user
 func RegisterUser(ctx *fiber.Ctx) error {
 	registerDto := &RegisterRequestDto{}
 	if err := ctx.BodyParser(registerDto); err != nil {
-		if err := ctx.Status(400).JSON(home.ErrorResponse([]error{err}, home.CANNOT_PARSE_BODY)); err != nil {
+		if err := ctx.Status(400).JSON(home.ErrorResponse([]error{err}, home.CannotParseBody)); err != nil {
 			return err
 		}
 		return err
 	}
 	user, err := Register(registerDto)
 	if err != nil {
-		err := ctx.Status(401).JSON(home.ErrorResponse([]error{err}, home.OAUTH_TOKEN_NOT_CORRECT))
+		err := ctx.Status(401).JSON(home.ErrorResponse([]error{err}, home.OAuthTokenIncorrect))
 		if err != nil {
 			return err
 		}
@@ -71,7 +71,7 @@ func LoginUser(ctx *fiber.Ctx) error {
 	findUserDto := &LoginUserDto{}
 	err := ctx.BodyParser(findUserDto)
 	if err != nil {
-		if err := ctx.Status(400).JSON(home.ErrorResponse([]error{err}, home.CANNOT_PARSE_BODY)); err != nil {
+		if err := ctx.Status(400).JSON(home.ErrorResponse([]error{err}, home.CannotParseBody)); err != nil {
 			return err
 		}
 		return err

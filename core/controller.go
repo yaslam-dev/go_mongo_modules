@@ -14,7 +14,7 @@ import (
 */
 
 type Handler struct {
-	Method      HttpMethods
+	Method      HTTPMethods
 	Path        string
 	Middleware  []FiberHandler
 	HandlerFunc FiberHandler
@@ -27,7 +27,7 @@ func NewHandler() *Handler {
 	return &Handler{}
 }
 
-func (h *Handler) SetMethod(method HttpMethods) *Handler {
+func (h *Handler) SetMethod(method HTTPMethods) *Handler {
 	h.Method = method
 	return h
 }
@@ -60,41 +60,6 @@ func (h *Handler) SetRequestDto(requestDto interface{}) *Handler {
 func (h *Handler) SetResponseDto(responseDto interface{}) *Handler {
 	h.ResponseDto = responseDto
 	return h
-}
-
-func (h *Handler) GenerateSwagger(controllerName string, version string, controllerPath string, moduleName string) {
-	fmt.Println("    H", generate, " Swagger for handler", GetStatusString(h.Method), ":", h.Path)
-	/**
-	Summary     string                     `json:"summary"`
-	Description string                     `json:"description"`
-	OperationId string                     `json:"operationId"`
-	Parameters  []SwaggerParameter         `json:"parameters"`
-	Responses   map[string]SwaggerResponse `json:"responses"`
-	RequestBody SwaggerRequestBody         `json:"requestBody"`
-	Tags        []string                   `json:"tags"`
-	*/
-	operationId := GenerateOperationId(h.Path, controllerName, h.Method, version)
-	pathParameters := ExtractPathParameters(h.Path)
-	pathItem := SwaggerPathItem{
-		Summary:     h.Description,
-		Description: h.Description,
-		OperationId: operationId,
-		Tags:        []string{moduleName},
-		RequestBody: SwaggerRequestBody{
-			Content: map[string]SwaggerResponseContent{},
-		},
-		Responses: map[HttpStatusCode]SwaggerResponse{
-			HttpStatusOK: {},
-		},
-	}
-	for _, pathParameter := range pathParameters {
-		pathItem.AddPathParameter(pathParameter)
-	}
-	if swaggerInstance.Paths[GenerateFullPath(h.Path, version, controllerPath)] == nil {
-		swaggerInstance.Paths[GenerateFullPath(h.Path, version, controllerPath)] = SwaggerPath{}
-	}
-
-	swaggerInstance.Paths[GenerateFullPath(h.Path, version, controllerPath)][h.Method] = pathItem
 }
 
 /**
@@ -135,16 +100,9 @@ func (c *Controller) AddHandler(h *Handler) *Controller {
 
 func (c *Controller) RegisterRoutes(e *fiber.App) {
 	for _, h := range c.Handlers {
-		full_path := path.Join(c.Version, c.Path, h.Path)
-		fmt.Println("    H", register, " NewHandler: ", GetStatusString(h.Method), full_path)
+		fullPath := path.Join(c.Version, c.Path, h.Path)
+		fmt.Println("    H", register, " NewHandler: ", GetStatusString(h.Method), fullPath)
 		h.Middleware = append(h.Middleware, h.HandlerFunc)
-		e.Add(strings.ToUpper(string(h.Method)), full_path, h.Middleware...)
-	}
-}
-
-func (c *Controller) GenerateSwagger(moduleName string) {
-	fmt.Println("  C", generate, " Swagger for controller: ", c.Name)
-	for _, h := range c.Handlers {
-		h.GenerateSwagger(c.Name, c.Version, c.Path, moduleName)
+		e.Add(strings.ToUpper(string(h.Method)), fullPath, h.Middleware...)
 	}
 }
