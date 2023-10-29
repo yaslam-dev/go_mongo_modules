@@ -9,8 +9,8 @@
 3. `mongodb` database
 4. [gofiber](https://gofiber.io/) support for web server, middlewares ...
 5. [Artillery](https://www.artillery.io/) load testing boilerplate
-6. 🔎 `Validation of DTO` _comming soon_
-7. 🔎 `swagger generating` _comming soon_
+6. [Validation](https://github.com/go-ozzo/ozzo-validation) of DTO, requests.
+7. [Static Analysis](https://staticcheck.dev/docs/getting-started) for clean code.
 8. 🔎 `Github Action` _comming soon_
 
 ## Prequisites
