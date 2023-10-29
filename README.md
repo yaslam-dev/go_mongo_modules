@@ -1,6 +1,6 @@
 # Go Mongo
 
-**go mongo modules** is a go-mongodb boilerplate for inspired from [go module](https://github.com/amrebada/go-modules)
+**go mongo modules** is a blazing fast go-mongodb boilerplate for inspired from [go module](https://github.com/amrebada/go-modules)
 
 ## What is included
 
@@ -11,7 +11,13 @@
 5. [Artillery](https://www.artillery.io/) load testing boilerplate
 6. [Validation](https://github.com/go-ozzo/ozzo-validation) of DTO, requests.
 7. [Static Analysis](https://staticcheck.dev/docs/getting-started) for clean code.
-8. 🔎 `Github Action` _comming soon_
+
+## Future Contribution
+
+- Adding Benchmarks using Artillery load testing.
+- 🔎 `Github Action` _comming soon_
+- Middleware for Authentication and Autorization.
+- Shift from `goAir` for Hot-Module Reload instead of `nodemon`.
 
 ## Prequisites
 
@@ -31,6 +37,7 @@
 - build for mac: `make build_mac`
 - run database migration: `make migrate`
 - run tests: `make test`
+- run lint: `make lint`
 
 ## Contribution
 
