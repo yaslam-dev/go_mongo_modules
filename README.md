@@ -1,5 +1,7 @@
 # Go Mongo
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/Yasir900Aslam/go_mongo_modules)](https://goreportcard.com/report/github.com/Yasir900Aslam/go_mongo_modules)
+
 **go mongo modules** is a blazing fast go-mongodb boilerplate for inspired from [go module](https://github.com/amrebada/go-modules)
 
 ## What is included
