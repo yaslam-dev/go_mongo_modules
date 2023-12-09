@@ -1,6 +1,6 @@
 # Go Mongo
 
-[![Go Report Card](https://goreportcard.com/badge/github.com/Yasir900Aslam/go_mongo_modules)](https://goreportcard.com/report/github.com/Yasir900Aslam/go_mongo_modules)
+[![Go Report Card](https://goreportcard.com/badge/github.com/Yasir900Aslam/go_mongo_modules)](https://goreportcard.com/report/github.com/Yasir900Aslam/go_mongo_modules) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://raw.githubusercontent.com/yaslam-dev/go_mongo_modules/main/LICENSE)
 
 **go mongo modules** is a blazing fast go-mongodb boilerplate for inspired from [go module](https://github.com/amrebada/go-modules)
 
