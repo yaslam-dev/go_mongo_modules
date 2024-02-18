@@ -17,8 +17,8 @@ type User struct {
 	LoggedBy         string `json:"loggedBy" bson:"loggedBy"`
 }
 
-func (model *User) CollectionName() string {
-	return CollectionName
+func (u *User) CollectionName() string {
+	return collectionName
 }
 
 func (u *User) GetByID() error {
