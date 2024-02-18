@@ -1,3 +1,3 @@
 package user
 
-const CollectionName = "users"
+const collectionName = "users"
