@@ -6,7 +6,7 @@ require (
 	github.com/gin-gonic/gin v1.9.1
 	github.com/go-ozzo/ozzo-validation v3.6.0+incompatible
 	github.com/goccy/go-json v0.10.2
-	github.com/gofiber/fiber/v2 v2.52.0
+	github.com/gofiber/fiber/v2 v2.52.5
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/joho/godotenv v1.5.1
 	github.com/kamva/mgm/v3 v3.5.0
@@ -57,7 +57,7 @@ require (
 	golang.org/x/net v0.17.0 // indirect
 	golang.org/x/sync v0.1.0 // indirect
 	golang.org/x/sys v0.15.0 // indirect
-	golang.org/x/text v0.13.0 // indirect
+	golang.org/x/text v0.14.0 // indirect
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
 	google.golang.org/protobuf v1.30.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
